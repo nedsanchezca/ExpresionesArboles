@@ -22,11 +22,16 @@ def evaluar(arbol):
     if arbol.valor == "*":
         return evaluar(arbol.izq) * evaluar(arbol.der)
     return int(arbol.valor)
-    
-exp = input("ingrese l expresion en posfija: ").split(" ")
 
+def leerExpresionPorArchivo():
+    expresion = ""
+    contenido = open("archivo.in", "r")
+    if contenido.mode == 'r':
+        expresion = contenido.read()
+    return expresion
+    
 pila = Pila()
 
-convertir(exp, pila)
+convertir(leerExpresionPorArchivo().split(" "), pila)
 
 print(evaluar(pila.desapilar()))

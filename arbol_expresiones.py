@@ -29,9 +29,17 @@ def leerExpresionPorArchivo():
     if contenido.mode == 'r':
         expresion = contenido.read()
     return expresion
-    
+
+def escribirResultado(linea):
+    f = open("archivo.out", "w")
+    f.write(linea)
+    f.close
+
 pila = Pila()
 
 convertir(leerExpresionPorArchivo().split(" "), pila)
 
-print(evaluar(pila.desapilar()))
+evaluacion = evaluar(pila.desapilar())
+print(evaluacion)
+
+escribirResultado(str(evaluacion))

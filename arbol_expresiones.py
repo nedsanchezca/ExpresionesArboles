@@ -24,22 +24,32 @@ def evaluar(arbol):
     return int(arbol.valor)
 
 def leerExpresionPorArchivo():
-    expresion = ""
+    expresion = []
     contenido = open("archivo.in", "r")
-    if contenido.mode == 'r':
-        expresion = contenido.read()
+    contenidoAux = contenido.readlines()
+    for x in contenidoAux:
+        x = x[:-1]
+        print(x)
+        expresion.append(x)
     return expresion
 
 def escribirResultado(linea):
-    f = open("archivo.out", "w")
-    f.write(linea)
+    f = open("archivo.out", "a")
+    f.write(linea + '\n')
     f.close
 
-pila = Pila()
+arregloExpresiones = leerExpresionPorArchivo()
 
-convertir(leerExpresionPorArchivo().split(" "), pila)
+for x in arregloExpresiones:
+    pila = Pila()
+    expresionFinal = x.split(" ")
 
-evaluacion = evaluar(pila.desapilar())
-print(evaluacion)
+    convertir(x.split(" "), pila)
 
-escribirResultado(str(evaluacion))
+    evaluacion = evaluar(pila.desapilar())
+    #diccionario = {}
+    #diccionario['a'] = evaluacion
+
+    #print(diccionario)
+
+    escribirResultado(str(evaluacion))

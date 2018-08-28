@@ -1,6 +1,8 @@
 from pila import *
 from arbol import *
 
+diccionario = {}
+
 def convertir(lista, pila):
     if lista != []:
         if lista[0] in "+-*/":
@@ -13,6 +15,7 @@ def convertir(lista, pila):
             
 
 def evaluar(arbol):
+    print("puto el que lo lea")
     if arbol.valor == "+":
         return evaluar(arbol.izq) + evaluar(arbol.der)
     if arbol.valor == "-":
@@ -21,6 +24,9 @@ def evaluar(arbol):
         return evaluar(arbol.izq) / evaluar(arbol.der)
     if arbol.valor == "*":
         return evaluar(arbol.izq) * evaluar(arbol.der)
+    if arbol.valor == "=":
+        diccionario[arbol.der.valor] = evaluar(arbol.izq)
+        return str(arbol.der.valor) + " = " + str(arbol.izq)
     return int(arbol.valor)
 
 def leerExpresionPorArchivo():
@@ -29,27 +35,28 @@ def leerExpresionPorArchivo():
     contenidoAux = contenido.readlines()
     for x in contenidoAux:
         x = x[:-1]
-        print(x)
         expresion.append(x)
     return expresion
 
-def escribirResultado(linea):
+def escribirResultado(linea): 
     f = open("archivo.out", "a")
     f.write(linea + '\n')
     f.close
 
 arregloExpresiones = leerExpresionPorArchivo()
 
-for x in arregloExpresiones:
+f = open("archivo.out", "w")
+f.write("")
+f.close
+
+for x in arregloExpresiones: 
     pila = Pila()
     expresionFinal = x.split(" ")
 
     convertir(x.split(" "), pila)
 
-    evaluacion = evaluar(pila.desapilar())
-    #diccionario = {}
-    #diccionario['a'] = evaluacion
+    while(pila.es_vacia != True):
+        evaluacion = evaluar(pila.desapilar())
 
-    #print(diccionario)
 
     escribirResultado(str(evaluacion))
